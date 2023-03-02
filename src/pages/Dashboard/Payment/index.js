@@ -1,3 +1,7 @@
+import PaymentArea from '../../../components/Dashboard/PaymentArea';
+
 export default function Payment() {
-  return 'Pagamento: Em breve!';
+  return (
+    <PaymentArea/>
+  );
 }
