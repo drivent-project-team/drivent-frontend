@@ -6,24 +6,24 @@ export default TicketContext;
 
 export function TicketProvider({ children }) {
   const [ticketTypeSelected, setTicketTypeSelected] = useState([]);
-  const [includesHotel, setIncludesHotel] = useState('');
   const [ticketReserved, setTicketReserved] = useState({});
   const [selectedButtons, setSelectedButtons] = useState([]);
   const [showHotelOptions, setShowHotelOptions] = useState(false);
+  const [showReservationButton, setShoeReservationButton] = useState(false);
 
   return (
     <TicketContext.Provider
       value={{
         ticketTypeSelected,
         setTicketTypeSelected,
-        includesHotel,
-        setIncludesHotel,
         ticketReserved,
         setTicketReserved,
         selectedButtons,
         setSelectedButtons,
         showHotelOptions,
         setShowHotelOptions,
+        showReservationButton,
+        setShoeReservationButton,
       }}
     >
       {children}

@@ -11,7 +11,6 @@ function TicketTypeOptions({ tickets }) {
     {
       type === 'presencial' ? setShowHotelOptions(true) : setShowHotelOptions(false);
     }
-
     setSelectedButtons([type, index]);
   };
 
@@ -26,7 +25,7 @@ function TicketTypeOptions({ tickets }) {
               key={t.id}
               className={selectedButtons.includes('presencial' && index) ? 'selected' : ''}
               onClick={() => {
-                setTicketTypeSelected(t.name);
+                setTicketTypeSelected(t);
                 {
                   t.name === 'presencial'
                     ? handleTicketTypeButtonClick('presencial', index)

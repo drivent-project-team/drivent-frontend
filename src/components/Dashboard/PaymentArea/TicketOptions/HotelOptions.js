@@ -4,10 +4,12 @@ import { StyledButtons } from './styles/StyledButton';
 import { BoxButtons, DivChoice, DivPageContent } from './styles/styles';
 
 function HotelOptions({ ticketTypes }) {
-  const { setIncludesHotel, selectedButtons, setSelectedButtons } = useContext(TicketContext);
+  const { selectedButtons, setSelectedButtons, setTicketReserved, setShoeReservationButton } =
+    useContext(TicketContext);
 
   const handleHotelOptionButtonClick = (id) => {
     setSelectedButtons([...selectedButtons, id]);
+    setShoeReservationButton(true);
   };
 
   return (
@@ -22,7 +24,7 @@ function HotelOptions({ ticketTypes }) {
                 key={t.id}
                 className={selectedButtons.includes('presencial' && t.id) ? 'selected' : ''}
                 onClick={() => {
-                  setIncludesHotel(t.name);
+                  setTicketReserved(t);
                   handleHotelOptionButtonClick(t.id);
                   {
                     selectedButtons.length !== 2
@@ -33,7 +35,7 @@ function HotelOptions({ ticketTypes }) {
               >
                 <div>
                   <span>{t.includesHotel === true ? 'Com hotel' : 'Sem hotel'}</span>
-                  <p>+ R${t.includesHotel === true ? 100 : 0}</p>
+                  <p>+ R${t.includesHotel === true ? t.price : (t.price - t.price) }</p>
                 </div>
               </StyledButtons>
             );

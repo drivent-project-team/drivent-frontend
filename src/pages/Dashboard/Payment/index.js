@@ -5,6 +5,7 @@ import { TitlePage, ContainerPayment } from './style';
 import TicketTypeOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/TicketTypeOptions';
 import TicketContext from '../../../contexts/TicketContext';
 import HotelOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/HotelOptions';
+import ReservationButton from '../../../components/Dashboard/PaymentArea/TicketOptions/ReservationButton';
 
 export default function Payment() {
   const [status, setStatus] = useState(null);
@@ -12,7 +13,7 @@ export default function Payment() {
 
   const token = useToken();
 
-  const { ticketTypeSelected, selectedButtons, showHotelOptions, setSelectedButtons } = useContext(TicketContext);
+  const { ticketTypeSelected, showHotelOptions, showReservationButton } = useContext(TicketContext);
 
   useEffect(() => {
     requistion();
@@ -43,7 +44,6 @@ export default function Payment() {
     return 'Carregando';
   }
 
-  console.log(selectedButtons);
   return (
     <>
       <TitlePage>Ingresso e pagamento</TitlePage>
@@ -55,8 +55,8 @@ export default function Payment() {
         ) : (
           <TicketTypeOptions tickets={ticketTypes} />
         )}
-        {showHotelOptions ? <HotelOptions ticketTypes={ticketTypes} ticket={ticketTypeSelected} /> 
-          : null}
+        {showHotelOptions ? <HotelOptions ticketTypes={ticketTypes} ticket={ticketTypeSelected} /> : null}
+        {showReservationButton || ticketTypeSelected.name === 'online' ? <ReservationButton /> : null}
       </ContainerPayment>
     </>
   );

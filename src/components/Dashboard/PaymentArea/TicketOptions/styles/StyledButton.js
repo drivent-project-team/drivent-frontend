@@ -12,10 +12,10 @@ export const StyledButtons = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 24px;
-  /* &:hover {
+  &:hover {
     background-color: #ffeed2;
     border: 1px solid #ffffff;
-  } */
+  }
   &.selected {
     background-color: #ffeed2;
     border: 1px solid #ffffff;
