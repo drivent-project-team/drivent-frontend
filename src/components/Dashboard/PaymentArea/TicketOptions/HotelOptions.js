@@ -17,16 +17,18 @@ function HotelOptions({ ticketTypes }) {
         {ticketTypes
           .filter((t) => t.name === 'presencial')
           .map((t) => {
-            const isSelected = selectedButtons.includes(['presencial', t.id]);
-
             return (
               <StyledButtons
                 key={t.id}
-                isSelected={isSelected}
                 className={selectedButtons.includes('presencial' && t.id) ? 'selected' : ''}
                 onClick={() => {
                   setIncludesHotel(t.name);
                   handleHotelOptionButtonClick(t.id);
+                  {
+                    selectedButtons.length !== 2
+                      ? setSelectedButtons([...selectedButtons.slice(0, 2), t.id])
+                      : handleHotelOptionButtonClick(t.id);
+                  }
                 }}
               >
                 <div>
