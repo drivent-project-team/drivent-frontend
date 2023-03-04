@@ -9,7 +9,6 @@ export default function PaymentArea() {
       <h1>Ingresso escolhido</h1>
       <TicketData />
       <h1>Pagamento</h1>
-      <PaymentForm/>
       <PaymentConfirmation/>
     </Container>
   );

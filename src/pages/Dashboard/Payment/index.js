@@ -13,7 +13,7 @@ export default function Payment() {
 
   const token = useToken();
 
-  const { ticketTypeSelected, showHotelOptions, showReservationButton } = useContext(TicketContext);
+  const { ticketTypeSelected, showHotelOptions, showReservationButton, reservationSummary } = useContext(TicketContext);
 
   useEffect(() => {
     requistion();
@@ -43,6 +43,7 @@ export default function Payment() {
   if (status === null) {
     return 'Carregando';
   }
+  console.log(reservationSummary);
 
   return (
     <>
