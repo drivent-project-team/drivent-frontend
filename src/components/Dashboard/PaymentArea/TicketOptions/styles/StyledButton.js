@@ -1,17 +1,6 @@
 import styled from 'styled-components';
 
-export default function OptionsButtons({ firstParam, secondParam }) {
-  return (
-    <Buttons>
-      <div>
-        <span>{firstParam}</span>
-        <p>R${secondParam}</p>
-      </div>
-    </Buttons>
-  );
-}
-
-const Buttons = styled.div`
+export const StyledButtons = styled.div`
   width: 145px;
   height: 145px;
   left: 341px;
@@ -23,7 +12,11 @@ const Buttons = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 24px;
-  &:hover {
+  /* &:hover {
+    background-color: #ffeed2;
+    border: 1px solid #ffffff;
+  } */
+  &.selected {
     background-color: #ffeed2;
     border: 1px solid #ffffff;
   }
