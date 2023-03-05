@@ -5,7 +5,8 @@ import { StyledButtons } from './styles/StyledButton';
 import { BoxButtons, DivChoice, DivPageContent } from './styles/styles';
 
 function TicketTypeOptions({ tickets }) {
-  const { setTicketTypeSelected, setShowHotelOptions, setSelectedButtons, selectedButtons } = useContext(TicketContext);
+  const { setTicketTypeSelected, setShowHotelOptions, setSelectedButtons, selectedButtons, setReservationSummary } =
+    useContext(TicketContext);
 
   const handleTicketTypeButtonClick = (type, index) => {
     {

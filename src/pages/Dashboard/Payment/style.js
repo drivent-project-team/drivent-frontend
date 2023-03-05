@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TitlePage = styled.div`
-  width: 100%; 
+  width: 100%;
   display: flex;
   justify-content: start;
   align-items: center;

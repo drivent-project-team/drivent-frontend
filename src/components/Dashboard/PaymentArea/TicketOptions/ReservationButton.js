@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import PaymentArea from '..';
+import PaymentArea from '../Index';
 import TicketContext from '../../../../contexts/TicketContext';
 import { DivChoice, DivPageContent, StyledReservationButton } from './styles/styles';
 
-export default function ReservationButton() {
+export default function ReservationButton({ setChangePage }) {
   const { ticketReserved, ticketTypeSelected, reservationSummary, setReservationSummary } = useContext(TicketContext);
 
   const total = ticketReserved.price + ticketTypeSelected.price;
@@ -43,6 +43,7 @@ export default function ReservationButton() {
             includesHotel: ticketReserved.includesHotel,
             finalPrice: finalPrice,
           };
+          setChangePage('payment');
           setReservationSummary(reservationData);
         }}
       >
