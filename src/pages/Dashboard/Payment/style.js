@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const TitlePage = styled.div`
-  width: 100%;
-  height: 8%;
+  width: 100%; 
   display: flex;
   justify-content: start;
   align-items: center;
@@ -17,7 +16,7 @@ export const ContainerPayment = styled.div`
   width: 100%;
   height: 92%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -26,6 +25,7 @@ export const ContainerPayment = styled.div`
   line-height: 23px;
   text-align: center;
   color: #8e8e8e;
+  gap: 30px;
 `;
 export const DivPageContent = styled.div`
   width: 100%;

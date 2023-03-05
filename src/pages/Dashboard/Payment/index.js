@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useToken from '../../../hooks/useToken';
 import { getEnrollmentUser, getTickets } from '../../../services/paymentApi';
-import OptionsButtons from '../../../components/OptionsButtons';
-import { TitlePage, ContainerPayment, DivPageContent, BoxButtons, DivChoice } from './style';
+import { TitlePage, ContainerPayment } from './style';
+import TicketTypeOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/TicketTypeOptions';
+import TicketContext from '../../../contexts/TicketContext';
+import HotelOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/HotelOptions';
+import ReservationButton from '../../../components/Dashboard/PaymentArea/TicketOptions/ReservationButton';
 
 export default function Payment() {
-  const [status, sendStatus] = useState(null);
-  const [ticketTypes, sendTicketTypes] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [ticketTypes, setTicketTypes] = useState([]);
+
   const token = useToken();
+
+  const { ticketTypeSelected, showHotelOptions, showReservationButton, reservationSummary } = useContext(TicketContext);
 
   useEffect(() => {
     requistion();
@@ -17,9 +23,9 @@ export default function Payment() {
   async function requistion() {
     try {
       const resposta = await getEnrollmentUser(token);
-      sendStatus(resposta);
+      setStatus(resposta);
     } catch (error) {
-      sendStatus(error.response.status);
+      setStatus(error.response.status);
       console.log(error.response.data);
       console.log(error.response.status);
     }
@@ -28,7 +34,7 @@ export default function Payment() {
   async function ticket() {
     try {
       const tickets = await getTickets(token);
-      sendTicketTypes(tickets);
+      setTicketTypes(tickets);
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +43,7 @@ export default function Payment() {
   if (status === null) {
     return 'Carregando';
   }
+  console.log(reservationSummary);
 
   return (
     <>
@@ -46,18 +53,11 @@ export default function Payment() {
           <span>
             Você precisa completar sua inscrição antes <br /> de prosseguir pra escolha de ingresso
           </span>
-        ) : ticketTypes !== null ? (
-          <DivPageContent>
-            <DivChoice>Primeiro, escolha sua modalidade de ingresso</DivChoice>
-            <BoxButtons>
-              {ticketTypes.map((t) => (
-                <OptionsButtons firstParam={t.name} secondParam={t.price} />
-              ))}
-            </BoxButtons>
-          </DivPageContent>
         ) : (
-          <></>
+          <TicketTypeOptions tickets={ticketTypes} />
         )}
+        {showHotelOptions ? <HotelOptions ticketTypes={ticketTypes} ticket={ticketTypeSelected} /> : null}
+        {showReservationButton || ticketTypeSelected.name === 'online' ? <ReservationButton /> : null}
       </ContainerPayment>
     </>
   );
