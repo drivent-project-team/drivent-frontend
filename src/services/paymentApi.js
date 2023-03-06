@@ -10,8 +10,18 @@ export async function getEnrollmentUser(token) {
   return data;
 }
 
-export async function getTickets(token) {
-  const { data } = await api.get('/tickets/types', {
+export async function postPayment(body, token) {
+  const response = await api.post('/payments/process', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
+
+export async function getPayment(token, ticketId) {
+  const { data } = await api.get(`/payments?ticketId=${ticketId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

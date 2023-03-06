@@ -1,15 +1,34 @@
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useToken from '../../../hooks/useToken';
+import { getPayment } from '../../../services/paymentApi';
 import PaymentConfirmation from './PaymentConfirmation';
 import PaymentForm from './PaymentForm';
 import TicketData from './TicketData';
+import TicketContext from '../../../contexts/TicketContext';
 
 export default function PaymentArea() {
+  const [showConfirmation, setConfirmation] = useState(false);
+  const token = useToken();
+  const { ticketReserved } = useContext(TicketContext);
+
+  useEffect(async() => {
+    try {
+      const paid = await getPayment(token, ticketReserved.id);
+      if (paid) {
+        setConfirmation(true);
+      }
+    } catch (error) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+    }
+  }, []);
   return (
     <Container>
       <h1>Ingresso escolhido</h1>
       <TicketData />
       <h1>Pagamento</h1>
-      <PaymentConfirmation/>
+      {showConfirmation ? <PaymentConfirmation /> : <PaymentForm setConfirmation={setConfirmation} />}
     </Container>
   );
 }

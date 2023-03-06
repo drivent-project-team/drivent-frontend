@@ -2,9 +2,13 @@ import { useContext } from 'react';
 import PaymentArea from '../Index';
 import TicketContext from '../../../../contexts/TicketContext';
 import { DivChoice, DivPageContent, StyledReservationButton } from './styles/styles';
+import { postTicket } from '../../../../services/ticketApi';
+import { toast } from 'react-toastify';
+import useToken from '../../../../hooks/useToken';
 
 export default function ReservationButton({ setChangePage }) {
-  const { ticketReserved, ticketTypeSelected, reservationSummary, setReservationSummary } = useContext(TicketContext);
+  const { ticketReserved, setTicketReserved, ticketTypeSelected, setReservationSummary } = useContext(TicketContext);
+  const token = useToken();
 
   const total = ticketReserved.price + ticketTypeSelected.price;
 
@@ -37,14 +41,21 @@ export default function ReservationButton({ setChangePage }) {
         . Agora é só confirmar:
       </DivChoice>
       <StyledReservationButton
-        onClick={() => {
+        onClick={async() => {
           const reservationData = {
             ticketType: ticketTypeSelected.name,
             includesHotel: ticketReserved.includesHotel,
             finalPrice: finalPrice,
           };
-          setChangePage('payment');
-          setReservationSummary(reservationData);
+          try {
+            const ticket = await postTicket({ ticketTypeId: ticketTypeSelected.id }, token);
+            setReservationSummary(reservationData);
+            setTicketReserved(ticket);
+            setChangePage('payment');
+            toast('Ticket inscrito com sucesso!');
+          } catch (err) {
+            toast('Não foi possível inscrever o ticket!');
+          }
         }}
       >
         RESERVAR INGRESSO
