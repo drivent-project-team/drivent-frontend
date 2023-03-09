@@ -53,3 +53,17 @@ export const DivChoice = styled.div`
   line-height: 23px;
   color: #8e8e8e;
 `;
+
+export const NoEnrollmentText = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+  line-height: 23px;
+  color: #8e8e8e;
+`;
