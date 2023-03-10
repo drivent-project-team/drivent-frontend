@@ -4,13 +4,16 @@ import { StyledButtons } from './styles/StyledButton';
 import { BoxButtons, DivChoice, DivPageContent } from './styles/styles';
 
 function HotelOptions({ ticketTypes }) {
-  const { selectedButtons, setSelectedButtons, setTicketReserved, setShoeReservationButton } =
+  const { selectedButtons, setSelectedButtons, setShoeReservationButton, ticketTypeSelected, setTicketTypeSelected } =
     useContext(TicketContext);
 
   const handleHotelOptionButtonClick = (id) => {
     setSelectedButtons([...selectedButtons, id]);
     setShoeReservationButton(true);
   };
+
+  const { price: priceIncludeHotel } = ticketTypes.filter((t) => t.name === 'presencial' && t.includesHotel)[0];
+  const { price: priceWithoutHotel } = ticketTypes.filter((t) => t.name === 'presencial' && !t.includesHotel)[0];
 
   return (
     <DivPageContent style={{ marginTop: '0px' }}>
@@ -24,7 +27,7 @@ function HotelOptions({ ticketTypes }) {
                 key={t.id}
                 className={selectedButtons.includes('presencial' && t.id) ? 'selected' : ''}
                 onClick={() => {
-                  setTicketReserved(t);
+                  setTicketTypeSelected(ticketTypes.filter((tckt) => tckt.isRemote === ticketTypeSelected.isRemote && tckt.price === t.price)[0]);
                   handleHotelOptionButtonClick(t.id);
                   {
                     selectedButtons.length !== 2
@@ -35,7 +38,7 @@ function HotelOptions({ ticketTypes }) {
               >
                 <div>
                   <span>{t.includesHotel === true ? 'Com hotel' : 'Sem hotel'}</span>
-                  <p>+ R${t.includesHotel === true ? t.price : (t.price - t.price) }</p>
+                  <p>+ R${t.includesHotel === true ? (priceIncludeHotel-priceWithoutHotel) : 0 }</p>
                 </div>
               </StyledButtons>
             );

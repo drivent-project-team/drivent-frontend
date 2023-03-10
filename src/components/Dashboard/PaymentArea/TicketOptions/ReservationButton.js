@@ -7,24 +7,9 @@ import { toast } from 'react-toastify';
 import useToken from '../../../../hooks/useToken';
 
 export default function ReservationButton({ setChangePage }) {
-  const { ticketReserved, setTicketReserved, ticketTypeSelected, setReservationSummary } = useContext(TicketContext);
+  const { setTicketReserved, ticketTypeSelected, setReservationSummary } =
+    useContext(TicketContext);
   const token = useToken();
-
-  const total = ticketReserved.price + ticketTypeSelected.price;
-
-  let finalPrice;
-
-  if (ticketTypeSelected.name === 'presencial' && ticketReserved.includesHotel) {
-    finalPrice = ticketTypeSelected.price + ticketReserved.price;
-  }
-
-  if (ticketTypeSelected.name === 'presencial' && !ticketReserved.includesHotel) {
-    finalPrice = ticketTypeSelected.price + 0;
-  }
-
-  if (ticketTypeSelected.name === 'online') {
-    finalPrice = ticketTypeSelected.price;
-  }
 
   return (
     <DivPageContent style={{ marginTop: '0px' }}>
@@ -32,11 +17,7 @@ export default function ReservationButton({ setChangePage }) {
         Fechado! O total ficou em{' '}
         <strong>
           R${' '}
-          {ticketReserved.name === 'presencial' && ticketReserved.includesHotel
-            ? total
-            : ticketReserved.price + 0 || ticketTypeSelected.name === 'online'
-              ? ticketTypeSelected.price
-              : null}
+          {ticketTypeSelected.price}
         </strong>
         . Agora é só confirmar:
       </DivChoice>
@@ -44,8 +25,8 @@ export default function ReservationButton({ setChangePage }) {
         onClick={async() => {
           const reservationData = {
             ticketType: ticketTypeSelected.name,
-            includesHotel: ticketReserved.includesHotel,
-            finalPrice: finalPrice,
+            includesHotel: ticketTypeSelected.includesHotel,
+            finalPrice: ticketTypeSelected.price,
           };
           try {
             const ticket = await postTicket({ ticketTypeId: ticketTypeSelected.id }, token);

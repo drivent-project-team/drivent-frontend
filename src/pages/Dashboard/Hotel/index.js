@@ -17,20 +17,23 @@ export default function Hotel() {
 
   useEffect(async() => {
     try {
-      const ticketReserved = await getTicket(token);
-      await getPayment(token, ticketReserved.id);
+      const ticket = await getTicket(token);
 
       setReservationSummary({
-        ticketType: ticketReserved.TicketType.name,
-        includesHotel: ticketReserved.includesHotel,
-        finalPrice: ticketReserved.TicketType.price,
+        ticketType: ticket.TicketType.name,
+        includesHotel: ticket.TicketType.includesHotel,
+        finalPrice: ticket.TicketType.price,
       });
-      setTicketReserved(ticketReserved);
-      if (!ticketReserved.TicketType.includesHotel) {
+
+      setTicketReserved(ticket);
+      if (!ticket.TicketType.includesHotel) {
         setTicketInfo('notIncludeHotel');
+      } else if (ticket.status === 'PAID') {
+        setTicketInfo('OK');
         return;
+      } else {
+        setTicketInfo('notPaid');
       }
-      setTicketInfo('OK');
     } catch (error) {
       setTicketInfo('notPaid');
       console.log(error.response?.status);

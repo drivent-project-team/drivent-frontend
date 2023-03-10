@@ -19,13 +19,3 @@ export async function postPayment(body, token) {
 
   return response.data;
 }
-
-export async function getPayment(token, ticketId) {
-  const { data } = await api.get(`/payments?ticketId=${ticketId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return data;
-}
