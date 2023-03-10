@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import useToken from '../../../hooks/useToken';
-import { getEnrollmentUser, getPayment } from '../../../services/paymentApi';
+import { getEnrollmentUser } from '../../../services/paymentApi';
 import { TitlePage, ContainerPayment, NoEnrollmentText } from './style';
 import TicketTypeOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/TicketTypeOptions';
 import TicketContext from '../../../contexts/TicketContext';
@@ -16,26 +16,21 @@ export default function Payment() {
 
   const token = useToken();
 
-  const { ticketTypeSelected, setTicketReserved, showHotelOptions, showReservationButton, setReservationSummary } =
+  const { ticketTypeSelected, setTicketReserved, showHotelOptions, showReservationButton } =
     useContext(TicketContext);
 
   useEffect(async() => {
     try {
-      await enrollmentRequest();
       const ticketTypes = await getTicketTypes(token);
       setTicketTypes(ticketTypes);
+      await enrollmentRequest();
       const ticket = await getTicket(token);
-
-      setReservationSummary({
-        ticketType: ticket.TicketType.name,
-        includesHotel: ticket.includesHotel,
-        finalPrice: ticket.TicketType.price,
-      });
+      
       setTicketReserved(ticket);
       setChangePage('payment');
     } catch (error) {
-      console.log(error.response.data);
-      console.log(error.response.status);
+      console.log(error.response?.data);
+      console.log(error.response?.status);
     }
   }, []);
 

@@ -3,12 +3,16 @@ import { useContext } from 'react';
 import TicketContext from '../../../contexts/TicketContext';
 
 export default function TicketData() {
-  const { reservationSummary } = useContext(TicketContext);
+  const { ticketReserved } = useContext(TicketContext);
+  const ticketName = ticketReserved.TicketType.name;
 
   return (
     <TicketStyle>
-      <h2>{reservationSummary.ticketType.charAt(0).toUpperCase() + reservationSummary.ticketType.slice(1)}{' '}{reservationSummary.includesHotel=== true? '+ Com Hotel': ''}</h2>
-      <p>R$ {reservationSummary.finalPrice}</p>
+      <h2>
+        {ticketName.charAt(0).toUpperCase() + ticketName.slice(1)}{' '}
+        {ticketReserved.TicketType.includesHotel === true ? '+ Com Hotel' : ''}
+      </h2>
+      <p>R$ {ticketReserved.TicketType.price}</p>
     </TicketStyle>
   );
 }
