@@ -7,12 +7,13 @@ import TicketContext from '../../../contexts/TicketContext';
 import { getTicket } from '../../../services/ticketApi';
 import { getPayment } from '../../../services/paymentApi';
 import { NoEnrollmentText, TitlePage } from '../Payment/style';
+import { StyledReservationButton } from '../../../components/Dashboard/PaymentArea/TicketOptions/styles/styles';
 
 export default function Hotel() {
   const [targetedRoom, setTargetedRoom] = useState(0);
   const [targetedHotel, setTargetedHotel] = useState(0);
   const [ticketInfo, setTicketInfo] = useState('');
-  const { setTicketReserved } = useContext(TicketContext);
+  const { setTicketReserved, setShowHotelReservationSummary, showHotelReservationSummary } = useContext(TicketContext);
   const token = useToken();
 
   useEffect(async() => {
@@ -58,7 +59,7 @@ export default function Hotel() {
     <Layout>
       <UpperLayout>
         <h1 onClick={() => console.log(targetedHotel)}>Escolha de hotel e quarto</h1>
-        <h2>Primeiro, escolha seu hotel</h2>
+        {showHotelReservationSummary ? <h2>Você já escolheu seu quarto:</h2> : <h2>Primeiro, escolha seu hotel</h2>}
         <div>
           <HotelContainerList
             setTargetedHotel={setTargetedHotel}
@@ -68,17 +69,35 @@ export default function Hotel() {
         </div>
       </UpperLayout>
       <LowerLayout>
-        {targetedHotel ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}
-        <div>
-          {' '}
-          {/*FIXME*/}
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={1} />
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={2} />
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={3} />
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={4} />
-        </div>
+        {showHotelReservationSummary ? (
+          <StyledReservationButton onClick={() => {
+            setShowHotelReservationSummary(false);
+          }}>TROCAR DE QUARTO</StyledReservationButton>
+        ) : (
+          <LowerLayout>
+            {targetedHotel && !showHotelReservationSummary ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}
+            <div>
+              {' '}
+              {/*FIXME*/}
+              <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={1} />
+              <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={2} />
+              <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={3} />
+              <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={4} />
+            </div>
+            {targetedRoom ? (
+              <StyledReservationButton
+                onClick={() => {
+                  setShowHotelReservationSummary(true);
+                }}
+              >
+                RESERVAR QUARTO
+              </StyledReservationButton>
+            ) : (
+              ''
+            )}
+          </LowerLayout>
+        )}
       </LowerLayout>
-      {targetedRoom ? <button>RESERVAR QUARTO</button> : ''}
     </Layout>
   );
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.button`
   border: none;
   text-align: left;
-  background-color: ${props => props.targetedHotel === props.id ? '#FFEED2' : '#EBEBEB'}; 
+  background-color: ${(props) => (props.targetedHotel === props.id ? '#FFEED2' : '#EBEBEB')};
   width: 196px;
   height: 264px;
   border-radius: 10px;
@@ -32,14 +32,14 @@ export const Container = styled.button`
   h2 {
     margin: 0px;
     margin-bottom: 2px;
-    color: #3C3C3C;
+    color: #3c3c3c;
     font-weight: 700;
     font-size: 12px;
     line-height: 14px;
   }
 
   > h3 {
-    color: #3C3C3C;
+    color: #3c3c3c;
     font-size: 12px;
     line-height: 14px;
     margin-bottom: 13px;
