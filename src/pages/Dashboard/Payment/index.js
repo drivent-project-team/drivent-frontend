@@ -16,21 +16,18 @@ export default function Payment() {
 
   const token = useToken();
 
-  const { ticketTypeSelected, setTicketReserved, showHotelOptions, showReservationButton, setReservationSummary } =
+  const { ticketTypeSelected, setTicketReserved, showHotelOptions, showReservationButton } =
     useContext(TicketContext);
 
   useEffect(async() => {
     try {
       await enrollmentRequest();
-      const ticketTypes = await getTicketTypes(token);
-      setTicketTypes(ticketTypes);
       const ticket = await getTicket(token);
-
-      setReservationSummary({
-        ticketType: ticket.TicketType.name,
-        includesHotel: ticket.TicketType.includesHotel,
-        finalPrice: ticket.TicketType.price,
-      });
+      if(ticket.status === 'RESERVED') {
+        const ticketTypes = await getTicketTypes(token);
+        setTicketTypes(ticketTypes);
+      }
+      
       setTicketReserved(ticket);
       setChangePage('payment');
     } catch (error) {

@@ -12,18 +12,12 @@ export default function Hotel() {
   const [targetedRoom, setTargetedRoom] = useState(0);
   const [targetedHotel, setTargetedHotel] = useState(0);
   const [ticketInfo, setTicketInfo] = useState('');
-  const { setTicketReserved, setReservationSummary } = useContext(TicketContext);
+  const { setTicketReserved } = useContext(TicketContext);
   const token = useToken();
 
   useEffect(async() => {
     try {
       const ticket = await getTicket(token);
-
-      setReservationSummary({
-        ticketType: ticket.TicketType.name,
-        includesHotel: ticket.TicketType.includesHotel,
-        finalPrice: ticket.TicketType.price,
-      });
 
       setTicketReserved(ticket);
       if (!ticket.TicketType.includesHotel) {
