@@ -55,6 +55,8 @@ export default function Hotel() {
     );
   }
 
+  console.log(targetedHotel);
+
   return (
     <Layout>
       <UpperLayout>
@@ -70,9 +72,13 @@ export default function Hotel() {
       </UpperLayout>
       <LowerLayout>
         {showHotelReservationSummary ? (
-          <StyledReservationButton onClick={() => {
-            setShowHotelReservationSummary(false);
-          }}>TROCAR DE QUARTO</StyledReservationButton>
+          <StyledReservationButton
+            onClick={() => {
+              setShowHotelReservationSummary(false);
+            }}
+          >
+            TROCAR DE QUARTO
+          </StyledReservationButton>
         ) : (
           <LowerLayout>
             {targetedHotel && !showHotelReservationSummary ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}

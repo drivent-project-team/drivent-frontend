@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Container, PageContainer } from './HotelContainer.style';
 import axios from 'axios'; //FIXME
 import useToken from '../../../hooks/useToken';
-import { StyledReservationButton } from '../../../components/Dashboard/PaymentArea/TicketOptions/styles/styles';
+import TicketContext from '../../../contexts/TicketContext';
 
 function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargetedRoom, image }) {
   //TODO
@@ -61,6 +61,7 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
 export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, targetedHotel }) {
   const [hotelList, setHotelList] = useState([]);
   const token = useToken();
+  const { showHotelReservationSummary } = useContext(TicketContext);
 
   useEffect(() => {
     axios
@@ -70,25 +71,25 @@ export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, 
         },
       })
       .then((res) => {
+        let hotelsToRender = res.data;
+        if (showHotelReservationSummary && targetedHotel) {
+          hotelsToRender = res.data.filter((hotel) => hotel.id === targetedHotel);
+        }
         setHotelList(
-          res.data.map((hotel) => {
-            return (
-              <>
-                <HotelContainer
-                  name={hotel.name}
-                  key={hotel.id}
-                  id={hotel.id}
-                  image={hotel.image}
-                  setTargetedHotel={setTargetedHotel}
-                  setTargetedRoom={setTargetedRoom}
-                  targetedHotel={targetedHotel}
-                />
-              </>
-            );
-          })
+          hotelsToRender.map((hotel) => (
+            <HotelContainer
+              name={hotel.name}
+              key={hotel.id}
+              id={hotel.id}
+              image={hotel.image}
+              setTargetedHotel={setTargetedHotel}
+              setTargetedRoom={setTargetedRoom}
+              targetedHotel={targetedHotel}
+            />
+          ))
         );
       });
-  }, [targetedHotel]);
+  }, [targetedHotel, showHotelReservationSummary]);
 
   return <>{hotelList}</>;
 }
