@@ -21,12 +21,10 @@ export default function Payment() {
 
   useEffect(async() => {
     try {
+      const ticketTypes = await getTicketTypes(token);
+      setTicketTypes(ticketTypes);
       await enrollmentRequest();
       const ticket = await getTicket(token);
-      if(ticket.status === 'RESERVED') {
-        const ticketTypes = await getTicketTypes(token);
-        setTicketTypes(ticketTypes);
-      }
       
       setTicketReserved(ticket);
       setChangePage('payment');
