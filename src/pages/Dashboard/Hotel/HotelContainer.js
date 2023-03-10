@@ -8,6 +8,7 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
   //TODO
   const [accommodation, setAccommodation] = useState('Single');
   const [availableRooms, setAvailableRooms] = useState(0);
+  const { showHotelReservationSummary } = useContext(TicketContext);
 
   const token = useToken();
 
@@ -38,22 +39,41 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
 
   return (
     <>
-      <Container
-        onClick={() => {
-          setTargetedRoom(0);
-          setTargetedHotel(id);
-          console.log(targetedHotel);
-        }}
-        targetedHotel={targetedHotel}
-        id={id}
-      >
-        <img alt="Imagem do Hotel" src={image} />
-        <h1>{name}</h1>
-        <h2>Tipos de acomodação:</h2>
-        <h3>{accommodation}</h3>
-        <h2>Vagas disponíveis:</h2>
-        <h3>{availableRooms}</h3>
-      </Container>
+      {showHotelReservationSummary ? (
+        <Container
+          onClick={() => {
+            setTargetedRoom(0);
+            setTargetedHotel(id);
+            console.log(targetedHotel);
+          }}
+          targetedHotel={targetedHotel}
+          id={id}
+        >
+          <img alt="Imagem do Hotel" src={image} />
+          <h1>{name}</h1>
+          <h2>Quarto reservado:</h2>
+          <h3>{accommodation}</h3>
+          <h2>Pessoas no seu quarto:</h2>
+          <h3>{availableRooms}</h3>
+        </Container>
+      ) : (
+        <Container
+          onClick={() => {
+            setTargetedRoom(0);
+            setTargetedHotel(id);
+            console.log(targetedHotel);
+          }}
+          targetedHotel={targetedHotel}
+          id={id}
+        >
+          <img alt="Imagem do Hotel" src={image} />
+          <h1>{name}</h1>
+          <h2>Tipos de acomodação:</h2>
+          <h3>{accommodation}</h3>
+          <h2>Vagas disponíveis:</h2>
+          <h3>{availableRooms}</h3>
+        </Container>
+      )}
     </>
   );
 }
