@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Container } from './HotelContainer.style';
 import axios from 'axios'; //FIXME
 
-function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargetedRoom, image }) { //TODO
+function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargetedRoom, image, bookings }) { //TODO
   const [accommodation, setAccommodation] = useState('Single');
-  const [availableRooms, setAvailableRooms] = useState(0);
+  const [availableRooms, setAvailableRooms] = useState(0);  
 
   useEffect(() => {
     axios
@@ -16,7 +16,13 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
       .then((res) => {
         let c = 0;
         res.data.Rooms.forEach((room) => {
-          c++;
+          let capacity = room.capacity;
+          bookings.forEach((bookedRoom) => {
+            if (bookedRoom.roomId === room.id) {
+              capacity -= bookedRoom.num_bookings;
+            }
+          });
+          c += capacity;
           if (room.capacity === 2 && accommodation !== 'Single, Double e Triple' && accommodation !== 'Single e Double') {
             setAccommodation('Single e Double');
           } else if (room.capacity === 3 && accommodation !== 'Single, Double e Triple') {
@@ -25,7 +31,7 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
         });
         setAvailableRooms(c);
       });
-  }, []);
+  }, [bookings]);
 
   return (
     <Container onClick={() => {setTargetedRoom(0); setTargetedHotel(id); console.log(targetedHotel);}} targetedHotel={targetedHotel} id={id}>
@@ -39,19 +45,19 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
   );
 }
 
-export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, targetedHotel }) {
+export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, targetedHotel, bookings }) {
   const [hotelList, setHotelList] = useState([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/hotels', {
+      .get('http://localhost:4000/hotels', { //FIXME
         headers: {
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY3Nzg1NTEwNn0.1uPwuQX_pT2JXLjN-Bc2e8q6rrgWSazV7cagVZOaOJA'
         }
       })
       .then((res) => {
         setHotelList((res.data.map((hotel) => {
-          return <HotelContainer name={hotel.name} key={hotel.id} id={hotel.id} image={hotel.image} setTargetedHotel={setTargetedHotel} setTargetedRoom={setTargetedRoom} targetedHotel={targetedHotel} />;
+          return <HotelContainer bookings={bookings} name={hotel.name} key={hotel.id} id={hotel.id} image={hotel.image} setTargetedHotel={setTargetedHotel} setTargetedRoom={setTargetedRoom} targetedHotel={targetedHotel} />;
         })));
       });
   }, [targetedHotel]);
