@@ -29,12 +29,13 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
             setAccommodation('Single, Double e Triple');
           }
         });
+        
         setAvailableRooms(c);
       });
   }, [bookings]);
 
   return (
-    <Container onClick={() => {setTargetedRoom(0); setTargetedHotel(id); console.log(targetedHotel);}} targetedHotel={targetedHotel} id={id}>
+    <Container onClick={() => {setTargetedRoom(0); setTargetedHotel(id);}} targetedHotel={targetedHotel} id={id}>
       <img alt='Imagem do Hotel' src={image} />
       <h1>{name}</h1>
       <h2>Tipos de acomodação:</h2>
@@ -56,11 +57,11 @@ export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, 
         }
       })
       .then((res) => {
-        setHotelList((res.data.map((hotel) => {
+        setHotelList((res.data.map(hotel => {
           return <HotelContainer bookings={bookings} name={hotel.name} key={hotel.id} id={hotel.id} image={hotel.image} setTargetedHotel={setTargetedHotel} setTargetedRoom={setTargetedRoom} targetedHotel={targetedHotel} />;
         })));
       });
-  }, [targetedHotel]);
+  }, [targetedHotel, bookings]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { Layout, UpperLayout, LowerLayout } from './style';
 import { useState } from 'react';
 import HotelContainerList from './HotelContainer';
-import RoomContainer from './RoomContainer'; //FIXME
+import { RoomContainerList } from './RoomContainer'; //FIXME
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -9,7 +9,7 @@ export default function Hotel() {
   const [targetedRoom, setTargetedRoom] = useState(0);
   const [targetedHotel, setTargetedHotel] = useState(0);
   const [bookings, setBookings] = useState([]);
-  
+
   useEffect(() => {
     axios
       .get('http://localhost:4000/booking/count', { //FIXME
@@ -25,7 +25,7 @@ export default function Hotel() {
   return (
     <Layout>
       <UpperLayout>
-        <h1 onClick={() => console.log(targetedHotel)}>Escolha de hotel e quarto</h1>
+        <h1 onClick={() => console.log(bookings)}>Escolha de hotel e quarto</h1>
         <h2>Primeiro, escolha seu hotel</h2>
         <div> 
           <HotelContainerList bookings={bookings} setTargetedHotel={setTargetedHotel} setTargetedRoom={setTargetedRoom} targetedHotel={targetedHotel} />
@@ -34,10 +34,7 @@ export default function Hotel() {
       <LowerLayout>
         {targetedHotel ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}
         <div> {/*FIXME*/}
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={1} />
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={2} />
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={3} />
-          <RoomContainer setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} id={4} />       
+          {targetedHotel ? <RoomContainerList bookings={bookings} targetedHotel={targetedHotel} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} /> : ''}     
         </div>
       </LowerLayout>
       {targetedRoom ? <button>RESERVAR QUARTO</button> : ''}      

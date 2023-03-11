@@ -28,6 +28,7 @@ export const Container = styled.button`
   ion-icon {
     margin-left: 3px;
     font-size: 23px;
-    //color: //TODO
+    color: #FF4791;
+;
   }
 `;
