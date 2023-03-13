@@ -4,9 +4,10 @@ import axios from 'axios'; //FIXME
 import useToken from '../../../hooks/useToken';
 import TicketContext from '../../../contexts/TicketContext';
 
-function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargetedRoom, image, bookings }) { //TODO
+function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargetedRoom, image, bookings, roomObj }) {
+  //TODO
   const [accommodation, setAccommodation] = useState('Single');
-  const [availableRooms, setAvailableRooms] = useState(0);  
+  const [availableRooms, setAvailableRooms] = useState(0);
   const { showHotelReservationSummary } = useContext(TicketContext);
 
   const token = useToken();
@@ -28,12 +29,16 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
             }
           });
           c += capacity;
-          if (room.capacity === 2 && accommodation !== 'Single, Double e Triple' && accommodation !== 'Single e Double') {
+          if (
+            room.capacity === 2 &&
+            accommodation !== 'Single, Double e Triple' &&
+            accommodation !== 'Single e Double'
+          ) {
             setAccommodation('Single e Double');
           } else if (room.capacity === 3 && accommodation !== 'Single, Double e Triple') {
             setAccommodation('Single, Double e Triple');
           }
-        });        
+        });
         setAvailableRooms(c);
       });
   }, [bookings]);
@@ -53,9 +58,11 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
           <img alt="Imagem do Hotel" src={image} />
           <h1>{name}</h1>
           <h2>Quarto reservado:</h2>
-          <h3>{accommodation}</h3>
+          <h3>
+            {roomObj.name} ({roomObj.capacity === 2 ? 'Double' : roomObj.capacity === 3 ? 'Triple' : 'Single'})
+          </h3>
           <h2>Pessoas no seu quarto:</h2>
-          <h3>{availableRooms}</h3>
+          <h3>Você e mais {roomObj.bookedRooms} pessoas</h3>
         </Container>
       ) : (
         <Container
@@ -79,14 +86,15 @@ function HotelContainer({ name, id, targetedHotel, setTargetedHotel, setTargeted
   );
 }
 
-export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, targetedHotel, bookings }) {
+export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, targetedHotel, bookings, roomObj }) {
   const [hotelList, setHotelList] = useState([]);
   const token = useToken();
   const { showHotelReservationSummary } = useContext(TicketContext);
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/hotels', { //FIXME
+      .get('http://localhost:4000/hotels', {
+        //FIXME
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,7 +103,7 @@ export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, 
         let hotelsToRender = res.data;
         if (showHotelReservationSummary && targetedHotel) {
           hotelsToRender = res.data.filter((hotel) => hotel.id === targetedHotel);
-        } 
+        }
         setHotelList(
           hotelsToRender.map((hotel) => (
             <HotelContainer
@@ -107,6 +115,7 @@ export default function HotelContainerList({ setTargetedHotel, setTargetedRoom, 
               setTargetedRoom={setTargetedRoom}
               targetedHotel={targetedHotel}
               bookings={bookings}
+              roomObj={roomObj}
             />
           ))
         );

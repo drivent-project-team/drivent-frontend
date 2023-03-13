@@ -82,6 +82,7 @@ export default function Hotel() {
             setTargetedRoom={setTargetedRoom}
             targetedHotel={targetedHotel}
             bookings={bookings}
+            roomObj={roomObj}
           />
         </div>
       </UpperLayout>
