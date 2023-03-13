@@ -10,7 +10,7 @@ export function TicketProvider({ children }) {
   const [selectedButtons, setSelectedButtons] = useState([]);
   const [showHotelOptions, setShowHotelOptions] = useState(false);
   const [showReservationButton, setShoeReservationButton] = useState(false);
-  const [reservationSummary, setReservationSummary] = useState([]);
+  const [showHotelReservationSummary, setShowHotelReservationSummary] = useState(false);
 
   return (
     <TicketContext.Provider
@@ -25,8 +25,8 @@ export function TicketProvider({ children }) {
         setShowHotelOptions,
         showReservationButton,
         setShoeReservationButton,
-        reservationSummary,
-        setReservationSummary,
+        showHotelReservationSummary,
+        setShowHotelReservationSummary,
       }}
     >
       {children}

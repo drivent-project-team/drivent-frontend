@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import useToken from '../../../hooks/useToken';
-import { getEnrollmentUser, getPayment } from '../../../services/paymentApi';
-import { TitlePage, ContainerPayment } from './style';
+import { getEnrollmentUser } from '../../../services/paymentApi';
+import { TitlePage, ContainerPayment, NoEnrollmentText } from './style';
 import TicketTypeOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/TicketTypeOptions';
 import TicketContext from '../../../contexts/TicketContext';
 import HotelOptions from '../../../components/Dashboard/PaymentArea/TicketOptions/HotelOptions';
@@ -16,35 +16,51 @@ export default function Payment() {
 
   const token = useToken();
 
-  const { ticketTypeSelected, setTicketReserved, showHotelOptions, showReservationButton, setReservationSummary } = useContext(TicketContext);
+  const { ticketTypeSelected, setTicketReserved, showHotelOptions, showReservationButton } =
+    useContext(TicketContext);
 
   useEffect(async() => {
     try {
-      const response = await getEnrollmentUser(token);
-      setStatus(response);
-
-      const ticketReserved = await getTicket(token);
-      if (ticketReserved) {
-        setReservationSummary({
-          ticketType: ticketReserved.TicketType.name,
-          includesHotel: ticketReserved.includesHotel,
-          finalPrice: ticketReserved.TicketType.price,
-        });
-        setTicketReserved(ticketReserved);
-        setChangePage('payment');
-      } else {
-        const ticketTypes = await getTicketTypes(token);
-        setTicketTypes(ticketTypes);
-      }
+      const ticketTypes = await getTicketTypes(token);
+      setTicketTypes(ticketTypes);
+      await enrollmentRequest();
+      const ticket = await getTicket(token);
+      
+      setTicketReserved(ticket);
+      setChangePage('payment');
     } catch (error) {
-      setStatus(error.response.status);
-      console.log(error.response.data);
-      console.log(error.response.status);
+      console.log(error.response?.data);
+      console.log(error.response?.status);
     }
   }, []);
 
+  async function enrollmentRequest() {
+    try {
+      const response = await getEnrollmentUser(token);
+      setStatus(response);
+    } catch (error) {
+      if(error.response) {
+        setStatus(error.response.status);
+      }
+      console.log(error.response?.status);
+    }
+  }
+
   if (status === null) {
     return 'Carregando';
+  }
+
+  if (status === 404) {
+    return (
+      <>
+        <TitlePage>Ingresso e pagamento</TitlePage>
+        <NoEnrollmentText>
+          <p>
+            Você precisa completar sua inscrição antes <br /> de prosseguir pra escolha de ingresso
+          </p>
+        </NoEnrollmentText>
+      </>
+    );
   }
 
   return (
@@ -52,15 +68,7 @@ export default function Payment() {
       <TitlePage>Ingresso e pagamento</TitlePage>
       {changePage === 'tickets' ? (
         <ContainerPayment>
-          {status === 404 ? (
-            <span>
-              Você precisa completar sua inscrição antes <br /> de prosseguir pra escolha de ingresso
-            </span>
-          ) : ticketTypes !== null ? (
-            <TicketTypeOptions tickets={ticketTypes} />
-          ) : (
-            'carregando'
-          )}
+          {ticketTypes !== null ? <TicketTypeOptions tickets={ticketTypes} /> : 'carregando'}
           {showHotelOptions && <HotelOptions ticketTypes={ticketTypes} ticket={ticketTypeSelected} />}
           {(showReservationButton || ticketTypeSelected.name === 'online') && (
             <ReservationButton setChangePage={setChangePage} />

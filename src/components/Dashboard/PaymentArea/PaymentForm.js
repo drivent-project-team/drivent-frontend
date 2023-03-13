@@ -8,9 +8,9 @@ import useToken from '../../../hooks/useToken';
 import { postPayment } from '../../../services/paymentApi';
 import { StyledReservationButton } from './TicketOptions/styles/styles';
 
-export default function PaymentForm({ setConfirmation }) {
+export default function PaymentForm() {
   const token = useToken();
-  const { ticketReserved } = useContext(TicketContext);
+  const { ticketReserved, setTicketReserved } = useContext(TicketContext);
   const [issuer, setIssuer] = useState('');
   const [paymentData, setData] = useState({
     number: '',
@@ -46,7 +46,7 @@ export default function PaymentForm({ setConfirmation }) {
 
     try {
       await postPayment({ ticketId: ticketReserved.id, cardData }, token);
-      setConfirmation(true);
+      setTicketReserved({ ...ticketReserved, status: 'PAID' });
       toast('Pagamento feito com sucesso!');
     } catch (err) {
       toast('Não foi possível fazer o pagamento!');
