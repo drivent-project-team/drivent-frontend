@@ -15,6 +15,7 @@ export default function Hotel() {
   const [targetedHotel, setTargetedHotel] = useState(0);
   const [bookings, setBookings] = useState([]);
   const [ticketInfo, setTicketInfo] = useState('');
+  const [roomObj, setRoomObj] = useState({});
   const { setTicketReserved, setShowHotelReservationSummary, showHotelReservationSummary } = useContext(TicketContext);
   const token = useToken();
 
@@ -73,7 +74,7 @@ export default function Hotel() {
   return (
     <Layout>
       <UpperLayout>
-        <h1 onClick={() => console.log(targetedHotel)}>Escolha de hotel e quarto</h1>
+        <h1 onClick={() => console.log(roomObj)}>Escolha de hotel e quarto</h1>
         {showHotelReservationSummary ? <h2>Você já escolheu seu quarto:</h2> : <h2>Primeiro, escolha seu hotel</h2>}
         <div>
           <HotelContainerList
@@ -97,7 +98,7 @@ export default function Hotel() {
         <LowerLayout>
           {targetedHotel && !showHotelReservationSummary ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}
           <div>
-            {targetedHotel ? <RoomContainerList bookings={bookings} targetedHotel={targetedHotel} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} /> : ''}
+            {targetedHotel ? <RoomContainerList setRoomObj={setRoomObj} bookings={bookings} targetedHotel={targetedHotel} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} /> : ''}
           </div>
           {targetedRoom ? (
             <StyledReservationButton

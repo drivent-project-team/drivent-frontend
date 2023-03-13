@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useToken from '../../../hooks/useToken';
 
-export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacity, bookedRooms }) {  
+export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacity, bookedRooms, setRoomObj }) {  
   const [vacancies, setVacancies] = useState([]);
 
   useEffect(() => {
@@ -22,7 +22,11 @@ export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacit
   }, []);
   
   return (
-    <Container onClick={() => setTargetedRoom(id)} targetedRoom={targetedRoom} id={id}>
+    <Container onClick={() => {setTargetedRoom(id); setRoomObj({
+      name,
+      capacity,
+      bookedRooms
+    });}} targetedRoom={targetedRoom} id={id}>
       <h1>{name}</h1>      
       <div>
         {vacancies}  
@@ -31,7 +35,7 @@ export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacit
   );
 };
 
-export function RoomContainerList({ targetedHotel, targetedRoom, setTargetedRoom, bookings }) {
+export function RoomContainerList({ targetedHotel, targetedRoom, setTargetedRoom, bookings, setRoomObj }) {
   const [roomList, setRoomList] = useState([]);
   const token = useToken();
   
@@ -50,7 +54,7 @@ export function RoomContainerList({ targetedHotel, targetedRoom, setTargetedRoom
               bookedRooms = b.num_bookings;
             };
           });
-          return <RoomContainer bookedRooms={bookedRooms} capacity={room.capacity} key={room.id} id={room.id} name={room.name} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} />;
+          return <RoomContainer setRoomObj={setRoomObj} bookedRooms={bookedRooms} capacity={room.capacity} key={room.id} id={room.id} name={room.name} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} />;
         })));
       });
   }, [targetedRoom, targetedHotel]); 
