@@ -4,6 +4,7 @@ import { personOutline } from 'ionicons/icons';
 import { person } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import useToken from '../../../hooks/useToken';
 
 export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacity, bookedRooms }) {  
   const [vacancies, setVacancies] = useState([]);
@@ -32,12 +33,13 @@ export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacit
 
 export function RoomContainerList({ targetedHotel, targetedRoom, setTargetedRoom, bookings }) {
   const [roomList, setRoomList] = useState([]);
+  const token = useToken();
   
   useEffect(() => {
     axios
       .get(`http://localhost:4000/hotels/${targetedHotel}`, { //FIXME
         headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY3Nzg1NTEwNn0.1uPwuQX_pT2JXLjN-Bc2e8q6rrgWSazV7cagVZOaOJA'
+          Authorization: `Bearer ${token}`
         }
       })
       .then((res) => {

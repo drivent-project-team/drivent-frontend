@@ -84,35 +84,35 @@ export default function Hotel() {
           />
         </div>
       </UpperLayout>
-      <LowerLayout>
-        {showHotelReservationSummary ? (
-          <StyledReservationButton
-            onClick={() => {
-              setShowHotelReservationSummary(false);
-            }}
-          >
-            TROCAR DE QUARTO
-          </StyledReservationButton>
-        ) : (
-          <LowerLayout>
-            {targetedHotel && !showHotelReservationSummary ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}
-            <div>
-              {targetedHotel ? <RoomContainerList bookings={bookings} targetedHotel={targetedHotel} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} /> : ''}
-            </div>
-            {targetedRoom ? (
-              <StyledReservationButton
-                onClick={() => {
-                  setShowHotelReservationSummary(true);
-                }}
-              >
-                RESERVAR QUARTO
-              </StyledReservationButton>
-            ) : (
-              ''
-            )}
-          </LowerLayout>
-        )}
-      </LowerLayout>
+      
+      {showHotelReservationSummary ? (
+        <StyledReservationButton
+          onClick={() => {
+            setShowHotelReservationSummary(false);
+          }}
+        >
+          TROCAR DE QUARTO
+        </StyledReservationButton>
+      ) : (
+        <LowerLayout>
+          {targetedHotel && !showHotelReservationSummary ? <h2>Ótima pedida! Agora escolha seu quarto:</h2> : ''}
+          <div>
+            {targetedHotel ? <RoomContainerList bookings={bookings} targetedHotel={targetedHotel} setTargetedRoom={setTargetedRoom} targetedRoom={targetedRoom} /> : ''}
+          </div>
+          {targetedRoom ? (
+            <StyledReservationButton
+              onClick={() => {
+                setShowHotelReservationSummary(true);
+              }}
+            >
+              RESERVAR QUARTO
+            </StyledReservationButton>
+          ) : (
+            ''
+          )}
+        </LowerLayout>
+      )}
+      
     </Layout>
   );
 }
