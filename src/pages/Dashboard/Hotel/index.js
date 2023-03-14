@@ -9,6 +9,7 @@ import { getTicket } from '../../../services/ticketApi';
 import { getPayment } from '../../../services/paymentApi';
 import { NoEnrollmentText, TitlePage } from '../Payment/style';
 import { StyledReservationButton } from '../../../components/Dashboard/PaymentArea/TicketOptions/styles/styles';
+import { getBookingUser, postBookig, putBookig } from '../../../services/hotelApi';
 
 export default function Hotel() {
   const [targetedRoom, setTargetedRoom] = useState(0);
@@ -50,6 +51,34 @@ export default function Hotel() {
     }
   }, []);
 
+  //Pesquisa de o user tem bookingId
+  async function bookRoom() {
+    try {
+      const response = await getBookingUser(token);
+      postOrPutBooking(response);
+    } catch (error) {
+      console.log(error.response?.status);
+      postOrPutBooking(error.response.status);
+    }
+  }
+  //Executa Put ou Post
+  async function postOrPutBooking(bookingExist) {
+    const body = { 'roomId': targetedRoom };
+
+    try {
+      if(bookingExist === 404) {
+        const response = await postBookig(body, token);
+        console.log(response);
+      } else {
+        const response = await putBookig(body, token, bookingExist.id);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error.response?.status);
+    }
+    setShowHotelReservationSummary(true);
+  }
+
   if (ticketInfo !== 'OK') {
     return (
       <>
@@ -70,11 +99,11 @@ export default function Hotel() {
     );
   }
 
-  console.log(targetedHotel);
+  // console.log(targetedHotel);
   return (
     <Layout>
       <UpperLayout>
-        <h1 onClick={() => console.log(roomObj)}>Escolha de hotel e quarto</h1>
+        <h1>Escolha de hotel e quarto</h1>
         {showHotelReservationSummary ? <h2>Você já escolheu seu quarto:</h2> : <h2>Primeiro, escolha seu hotel</h2>}
         <div>
           <HotelContainerList
@@ -85,7 +114,7 @@ export default function Hotel() {
           />
         </div>
       </UpperLayout>
-      
+
       {showHotelReservationSummary ? (
         <StyledReservationButton
           onClick={() => {
@@ -103,7 +132,7 @@ export default function Hotel() {
           {targetedRoom ? (
             <StyledReservationButton
               onClick={() => {
-                setShowHotelReservationSummary(true);
+                bookRoom();
               }}
             >
               RESERVAR QUARTO
@@ -113,7 +142,7 @@ export default function Hotel() {
           )}
         </LowerLayout>
       )}
-      
+
     </Layout>
   );
 }
