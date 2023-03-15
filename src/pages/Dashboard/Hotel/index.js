@@ -100,6 +100,7 @@ export default function Hotel() {
   }
 
   // console.log(targetedHotel);
+
   return (
     <Layout>
       <UpperLayout>
