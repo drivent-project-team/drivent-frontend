@@ -12,6 +12,7 @@ export const Container = styled.button`
   margin-right: 17px;
   margin-bottom: 8px;
   background-color: ${props => props.targetedRoom === props.id ? '#FFEED2' : '#fff'};
+  ${props => props.bookedRooms === props.capacity ? 'background-color: #CECECE;' : ''}
 
   h1 {
     font-weight: 700;
@@ -21,14 +22,18 @@ export const Container = styled.button`
   }
 
   &&:hover {
-    filter: brightness(95%);
-    cursor: pointer;
+    ${props => props.bookedRooms !== props.capacity ? 'filter: brightness(95%); cursor: pointer;' : ''}
   }
 
   ion-icon {
     margin-left: 3px;
     font-size: 23px;
-    color: #FF4791;
-;
+    ${props => props.bookedRooms === props.capacity ? 'color: #8C8C8C;' : ''}
+  }
+`;
+
+export const Colorizer = styled.div`
+  ion-icon {
+    ${props => props.selected ? 'color: #FF4791' : ''};
   }
 `;
