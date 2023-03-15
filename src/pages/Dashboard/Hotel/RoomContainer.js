@@ -1,4 +1,4 @@
-import { Container } from './RoomContainer.style';
+import { Container, Colorizer } from './RoomContainer.style';
 import { IonIcon } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
 import { person } from 'ionicons/icons';
@@ -12,21 +12,24 @@ export function RoomContainer({ id, name, setTargetedRoom, targetedRoom, capacit
   useEffect(() => {
     let arr = [];
     for (let i = 1; i <= capacity; i++) {
-      if (i <= capacity-bookedRooms) {
-        arr.push(<IonIcon key={i} icon={personOutline}/>);
+      if (i <= capacity - bookedRooms && (i + 1 > capacity || i + 1 > capacity - bookedRooms)) {
+        arr.push(<Colorizer selected={targetedRoom === id ? true : false}><IonIcon key={i} icon={targetedRoom === id ? person : personOutline} /></Colorizer>);
+      } 
+      else if (i <= capacity - bookedRooms) {
+        arr.push(<IonIcon key={i} icon={personOutline} />);
       } else {
         arr.push(<IonIcon key={i} icon={person} />);
       };
     };
     setVacancies(arr);
-  }, []);
+  }, [targetedRoom]);
   
   return (
-    <Container onClick={() => {setTargetedRoom(id); setRoomObj({
+    <Container onClick={bookedRooms === capacity ? console.log() : () => {setTargetedRoom(id); setRoomObj({
       name,
       capacity,
       bookedRooms
-    });}} targetedRoom={targetedRoom} id={id}>
+    });}} capacity={capacity} bookedRooms={bookedRooms} targetedRoom={targetedRoom} id={id}>
       <h1>{name}</h1>      
       <div>
         {vacancies}  
