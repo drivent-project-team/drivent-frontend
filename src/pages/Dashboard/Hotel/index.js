@@ -9,7 +9,7 @@ import { getTicket } from '../../../services/ticketApi';
 import { getPayment } from '../../../services/paymentApi';
 import { NoEnrollmentText, TitlePage } from '../Payment/style';
 import { StyledReservationButton } from '../../../components/Dashboard/PaymentArea/TicketOptions/styles/styles';
-import { getBookingUser, postBookig, putBookig } from '../../../services/hotelApi';
+import { getBookingsCount, getBookingUser, postBookig, putBookig } from '../../../services/hotelApi';
 
 export default function Hotel() {
   const [targetedRoom, setTargetedRoom] = useState(0);
@@ -20,25 +20,21 @@ export default function Hotel() {
   const { setTicketReserved, setShowHotelReservationSummary, showHotelReservationSummary } = useContext(TicketContext);
   const token = useToken();
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:4000/booking/count', { //FIXME
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then((res) => {
-        setBookings(res.data);
-      });
-  }, []);
-
   useEffect(async() => {
     try {
+      const bookingsCount = await getBookingsCount(token);
+      setBookings(bookingsCount);
       const booking = await getBookingUser(token);
-      //preciso saber quais estados mudar pra mostrar o menu de resumo
-      //setTargetedHotel(booking.Room.HotelId);
-      //setTargetedRoom(0);
-      //setShowHotelReservationSummary(true);
+      const bookedRooms = bookingsCount.filter((b) => b.roomId === booking.Room.id)[0].num_bookings;
+      setTargetedHotel(booking.Room.hotelId);
+      setRoomObj({
+        name: booking.Room.name,
+        capacity: booking.Room.capacity,
+        bookedRooms,
+      });
+      setTargetedRoom(0);
+      setShowHotelReservationSummary(true);
+      setTicketInfo('OK');
     } catch (error) {
       await requestTicket();
       console.log(error.response?.status);
