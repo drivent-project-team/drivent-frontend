@@ -29,3 +29,13 @@ export async function putBookig(body, token, bookingId) {
 
   return data;
 };
+
+export async function getBookingsCount(token) {
+  const { data } = await api.get('/booking/count', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+};
