@@ -34,6 +34,19 @@ export default function Hotel() {
 
   useEffect(async() => {
     try {
+      const booking = await getBookingUser(token);
+      //preciso saber quais estados mudar pra mostrar o menu de resumo
+      //setTargetedHotel(booking.Room.HotelId);
+      //setTargetedRoom(0);
+      //setShowHotelReservationSummary(true);
+    } catch (error) {
+      await requestTicket();
+      console.log(error.response?.status);
+    }
+  }, []);
+
+  async function requestTicket() {
+    try {
       const ticket = await getTicket(token);
 
       setTicketReserved(ticket);
@@ -49,7 +62,7 @@ export default function Hotel() {
       setTicketInfo('notPaid');
       console.log(error.response?.status);
     }
-  }, []);
+  }
 
   //Pesquisa de o user tem bookingId
   async function bookRoom() {
