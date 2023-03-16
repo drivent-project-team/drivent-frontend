@@ -9,3 +9,14 @@ export async function getActivities(token) {
 
   return data;
 }
+
+export async function getPlaces(token) {
+  const { data } = await api.get('/activities/places', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+}
+

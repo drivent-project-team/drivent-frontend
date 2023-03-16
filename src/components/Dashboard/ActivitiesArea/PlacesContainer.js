@@ -1,53 +1,43 @@
 import styled from 'styled-components';
 import { CgEnter, CgCloseO } from 'react-icons/cg';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
 
-export default function PlacesContainer({ chosenDate, activities }) {
+export default function PlacesContainer({ chosenDate, activities, places }) {
   console.log(chosenDate);
   console.log(activities);
+  console.log(places);
 
   return(
     <Container>
-      <BoxPlace >
-        <Place>Auditório Principal</Place>
-        < AllActivitiesByDay>
-          <ActivityByHour> 
-            <TitleAndTime>
-              <p>Minecraft: montando o PC ideal</p>
-              <span>09:00 - 10:00</span>
-            </TitleAndTime>
-            <Line />
-            <Capacity><CgEnter /><span>27 Vagas</span></Capacity>
-          </ActivityByHour>
-        </ AllActivitiesByDay>
-      </BoxPlace>
-
-      <BoxPlace >
-        <Place>Auditório Lateral</Place>
-        < AllActivitiesByDay>
-          <ActivityByHour>
-            <TitleAndTime>
-              <p>Minecraft: montando o PC ideal</p>
-              <span>09:00 - 11:00</span>
-            </TitleAndTime>
-            <Line />
-            <Capacity><CgCloseO /><span>27 Vagas</span></Capacity>
-          </ActivityByHour>
-        </ AllActivitiesByDay>
-      </BoxPlace>
-
-      <BoxPlace >
-        <Place>Sala de Workshop</Place>
-        < AllActivitiesByDay>
-          <ActivityByHour>
-            <TitleAndTime>
-              <p>LoL: montando o PC ideal</p>
-              <span>09:00 - 10:30</span>
-            </TitleAndTime>
-            <Line />
-            <Capacity><CgCloseO /><span>27 Vagas</span></Capacity>
-          </ActivityByHour>
-        </ AllActivitiesByDay>
-      </BoxPlace>
+      {places.map((p) => 
+        <BoxPlace>
+          <Place>{p.name}</Place>
+          < AllActivitiesByDay>
+            {activities.map((a) => {
+              const date = dayjs(a.date).locale('pt-br').format('dddd, D/MM');
+              const data = dayjs(date, 'dddd, DD/MM');
+              const compararData = data.format('dddd, DD/MM').replace(
+                data.format('dddd'),
+                data.format('dddd').replace(/^\w/, (c) => c.toUpperCase())
+              ).replace(/-feira/g, '');
+              if (compararData === chosenDate && p.name === a.Place.name) {
+                return <>
+                  <ActivityByHour>
+                    <TitleAndTime>
+                      <p>{a.name}</p>
+                      <span>{a.startAt}{' - '}{a.endsAt}</span>
+                    </TitleAndTime>
+                    <Line />
+                    <Capacity><CgEnter /><span>27 Vagas</span></Capacity>
+                  </ActivityByHour>
+                </>;
+              }
+            }
+            )}
+          </ AllActivitiesByDay>
+        </BoxPlace>
+      )}
     </Container>
   );
 };
