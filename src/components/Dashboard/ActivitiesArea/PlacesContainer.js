@@ -23,7 +23,7 @@ export default function PlacesContainer({ chosenDate, activities, places }) {
               ).replace(/-feira/g, '');
               if (compararData === chosenDate && p.name === a.Place.name) {
                 return <>
-                  <ActivityByHour>
+                  <ActivityByHour onClick={() => console.log(a.id)}>
                     <TitleAndTime>
                       <p>{a.name}</p>
                       <span>{a.startAt}{' - '}{a.endsAt}</span>
