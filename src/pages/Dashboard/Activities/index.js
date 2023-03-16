@@ -10,9 +10,11 @@ import styled from 'styled-components';
 export default function Activities() {
   const token = useToken();
 
-  const [activities, setActivities] = useState();
-  const [dates, setDates] = useState([]);
-  const [ticketInfo, setTicketInfo] = useState('');
+  const [ activities, setActivities ] = useState();
+  const [ dates, setDates ] = useState([]);
+  const [ ticketInfo, setTicketInfo ] = useState('');
+  const [ click, setClick ] = useState(false);
+  const [ chosenDate, setChosenDate ] = useState('');
 
   useEffect(async() => {
     try {
@@ -60,8 +62,8 @@ export default function Activities() {
   return (
     <ContainerIndexActivities>
       <TitlePage>Escolha de atividades</TitlePage>
-      <DatesContainer dates={dates}></DatesContainer>
-      <PlacesContainer></PlacesContainer>
+      <DatesContainer dates={dates} setClick={setClick} click={click} setChosenDate={setChosenDate}></DatesContainer>
+      {click && <PlacesContainer chosenDate={chosenDate} activities={activities}/>}
     </ContainerIndexActivities>
   );
 }

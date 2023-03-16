@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DivPageContent } from '../../../pages/Dashboard/Payment/style';
 import { DivChoice } from '../PaymentArea/TicketOptions/styles/styles';
 import dayjs from 'dayjs';
@@ -6,13 +6,18 @@ import 'dayjs/locale/pt-br';
 import localeData from 'dayjs/plugin/localeData';
 import styled from 'styled-components';
 
-function DatesContainer({ dates }) {
+function DatesContainer({ dates, setClick, click, setChosenDate }) {
   dayjs.extend(localeData);
   dayjs.locale('pt-br');
 
+  function showActivities(formattedDate) {
+    setClick(true);
+    setChosenDate(formattedDate);
+  }
+
   return (
     <DivPageContent>
-      <DivChoice>Primeiro, filtre pelo dia do evento:</DivChoice>
+      {!click && <DivChoice>Primeiro, filtre pelo dia do evento:</DivChoice>}
       <DatesButtonsContainer>
         {dates.map((d) => {
           const parsedDate = dayjs(d, 'dddd, DD/MM');
@@ -23,8 +28,8 @@ function DatesContainer({ dates }) {
               parsedDate.format('dddd').replace(/^\w/, (c) => c.toUpperCase())
             )
             .replace(/-feira/g, '');
-          console.log(formattedDate);
-          return <StyledDatesButton onClick={() => console.log('clicou')}>{formattedDate}</StyledDatesButton>;
+          // console.log(formattedDate);
+          return <StyledDatesButton onClick={() => showActivities(formattedDate)}>{formattedDate}</StyledDatesButton>;
         })}
       </DatesButtonsContainer>
     </DivPageContent>

@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import { CgEnter, CgCloseO } from 'react-icons/cg';
 
-export default function PlacesContainer() {
+export default function PlacesContainer({ chosenDate, activities }) {
+  console.log(chosenDate);
+  console.log(activities);
+
   return(
     <Container>
       <BoxPlace >
-        <Place>Auditório</Place>
+        <Place>Auditório Principal</Place>
         < AllActivitiesByDay>
           <ActivityByHour> 
             <TitleAndTime>
@@ -19,12 +22,26 @@ export default function PlacesContainer() {
       </BoxPlace>
 
       <BoxPlace >
-        <Place>Auditório</Place>
+        <Place>Auditório Lateral</Place>
         < AllActivitiesByDay>
           <ActivityByHour>
             <TitleAndTime>
               <p>Minecraft: montando o PC ideal</p>
-              <span>09:00 - 10:00</span>
+              <span>09:00 - 11:00</span>
+            </TitleAndTime>
+            <Line />
+            <Capacity><CgCloseO /><span>27 Vagas</span></Capacity>
+          </ActivityByHour>
+        </ AllActivitiesByDay>
+      </BoxPlace>
+
+      <BoxPlace >
+        <Place>Sala de Workshop</Place>
+        < AllActivitiesByDay>
+          <ActivityByHour>
+            <TitleAndTime>
+              <p>LoL: montando o PC ideal</p>
+              <span>09:00 - 10:30</span>
             </TitleAndTime>
             <Line />
             <Capacity><CgCloseO /><span>27 Vagas</span></Capacity>
@@ -37,6 +54,7 @@ export default function PlacesContainer() {
 
 const Container = styled.div`
     display: flex;
+    margin-top: 60px;
 `;
 const BoxPlace = styled.div`
     display: flex;
