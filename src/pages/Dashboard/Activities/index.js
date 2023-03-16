@@ -4,6 +4,8 @@ import useToken from '../../../hooks/useToken';
 import { getActivities } from '../../../services/activities';
 import { getTicket } from '../../../services/ticketApi';
 import { NoEnrollmentText, TitlePage } from '../Payment/style';
+import PlacesContainer from '../../../components/Dashboard/ActivitiesArea/PlacesContainer';
+import styled from 'styled-components';
 
 export default function Activities() {
   const token = useToken();
@@ -56,9 +58,16 @@ export default function Activities() {
   }
 
   return (
-    <>
+    <ContainerIndexActivities>
       <TitlePage>Escolha de atividades</TitlePage>
       <DatesContainer dates={dates}></DatesContainer>
-    </>
+      <PlacesContainer></PlacesContainer>
+    </ContainerIndexActivities>
   );
 }
+
+const ContainerIndexActivities = styled.div`
+display: flex;
+flex-direction: column;
+gap: 10px;
+`;

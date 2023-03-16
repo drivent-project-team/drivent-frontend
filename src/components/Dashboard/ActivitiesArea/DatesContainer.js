@@ -24,7 +24,7 @@ function DatesContainer({ dates }) {
             )
             .replace(/-feira/g, '');
           console.log(formattedDate);
-          return <StyledDatesButton>{formattedDate}</StyledDatesButton>;
+          return <StyledDatesButton onClick={() => console.log('clicou')}>{formattedDate}</StyledDatesButton>;
         })}
       </DatesButtonsContainer>
     </DivPageContent>
@@ -48,4 +48,20 @@ export const StyledDatesButton = styled.button`
   font-size: 14px;
   text-align: center;
   border: none;
+  cursor: pointer;
+
+   &:hover {
+     background-color: #FFD37D;
+  }
+  &.selected {
+     background-color: #FFD37D;
+  }
+  &:active {
+  background-color: #FFD37D;
+  transform: translateY(4px);
+}
+  &:after {
+    background-color: #FFD37D;
+  }
+
 `;
