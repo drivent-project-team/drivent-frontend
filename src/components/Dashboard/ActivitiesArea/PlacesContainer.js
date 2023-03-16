@@ -61,6 +61,7 @@ const BoxPlace = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-right: -1px;
 `;
 const Place = styled.div`
     width: 288px;
