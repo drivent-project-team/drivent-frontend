@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { CgEnter, CgCloseO } from 'react-icons/cg';
 
 export default function PlacesContainer() {
   return(
@@ -12,7 +13,7 @@ export default function PlacesContainer() {
               <span>09:00 - 10:00</span>
             </TitleAndTime>
             <Line />
-            <Capacity><span>27 Vagas</span></Capacity>
+            <Capacity><CgEnter /><span>27 Vagas</span></Capacity>
           </ActivityByHour>
         </ AllActivitiesByDay>
       </BoxPlace>
@@ -26,7 +27,7 @@ export default function PlacesContainer() {
               <span>09:00 - 10:00</span>
             </TitleAndTime>
             <Line />
-            <Capacity><span>27 Vagas</span></Capacity>
+            <Capacity><CgCloseO /><span>27 Vagas</span></Capacity>
           </ActivityByHour>
         </ AllActivitiesByDay>
       </BoxPlace>
@@ -105,14 +106,24 @@ const Line = styled.div`
 const Capacity = styled.div`
     width: 32%;
     height: 100%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     span{
+        display: block;
         text-align: center;
         font-family: 'Roboto';
         font-style: normal;
         font-weight: 400;
         font-size: 9px;
         line-height: 11px;
+        color: #078632;
+    }
+    svg{
+        width: 20px;
+        height: 28px;
         color: #078632;
     }
 `;
