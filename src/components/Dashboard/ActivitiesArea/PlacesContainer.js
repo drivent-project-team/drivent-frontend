@@ -4,10 +4,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
 export default function PlacesContainer({ chosenDate, activities, places }) {
-  console.log(chosenDate);
-  console.log(activities);
-  console.log(places);
-
   return(
     <Container>
       {places.map((p) => 

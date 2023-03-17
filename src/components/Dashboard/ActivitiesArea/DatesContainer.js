@@ -6,7 +6,7 @@ import 'dayjs/locale/pt-br';
 import localeData from 'dayjs/plugin/localeData';
 import styled from 'styled-components';
 
-function DatesContainer({ dates, setClick, click, setChosenDate }) {
+function DatesContainer({ dates, setClick, click, chosenDate, setChosenDate }) {
   dayjs.extend(localeData);
   dayjs.locale('pt-br');
 
@@ -29,7 +29,7 @@ function DatesContainer({ dates, setClick, click, setChosenDate }) {
             )
             .replace(/-feira/g, '');
           // console.log(formattedDate);
-          return <StyledDatesButton onClick={() => showActivities(formattedDate)}>{formattedDate}</StyledDatesButton>;
+          return <StyledDatesButton chosenDate={chosenDate} formattedDate={formattedDate} onClick={() => showActivities(formattedDate)}>{formattedDate}</StyledDatesButton>;
         })}
       </DatesButtonsContainer>
     </DivPageContent>
@@ -47,7 +47,7 @@ export const StyledDatesButton = styled.button`
   height: 37px;
   width: 131px;
   border-radius: 4px;
-  background-color: #e0e0e0;
+  background-color:${(props) => props.chosenDate === props.formattedDate ? '#FFD37D' : '#e0e0e0'};
   box-shadow: 0px 2px 10px 0px #00000040;
   font-family: 'Roboto';
   font-size: 14px;

@@ -65,7 +65,7 @@ export default function Activities() {
   return (
     <ContainerIndexActivities>
       <TitlePage>Escolha de atividades</TitlePage>
-      <DatesContainer dates={dates} setClick={setClick} click={click} setChosenDate={setChosenDate}></DatesContainer>
+      <DatesContainer dates={dates} chosenDate={chosenDate} setClick={setClick} click={click} setChosenDate={setChosenDate}></DatesContainer>
       {click && <PlacesContainer chosenDate={chosenDate} activities={activities} places={places}/>}
     </ContainerIndexActivities>
   );
