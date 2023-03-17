@@ -19,13 +19,22 @@ export default function PlacesContainer({ chosenDate, activities, places }) {
               ).replace(/-feira/g, '');
               if (compararData === chosenDate && p.name === a.Place.name) {
                 return <>
-                  <ActivityByHour onClick={() => console.log(a.id)}>
+                  <ActivityByHour>
                     <TitleAndTime>
                       <p>{a.name}</p>
                       <span>{a.startAt}{' - '}{a.endsAt}</span>
                     </TitleAndTime>
                     <Line />
-                    <Capacity><CgEnter /><span>27 Vagas</span></Capacity>
+                    <Capacity disabled={a.capacity - a._count.userActivity <= 0 ? true : false} onClick={() => console.log(a.id)} >
+                      {a.capacity - a._count.userActivity <= 0 ?
+                        <CgCloseO/>
+                        :
+                        <CgEnter /> }
+                      <span>{ a.capacity - a._count.userActivity <= 0 ? 
+                        'Esgotado'
+                        :
+                        a.capacity - a._count.userActivity }</span>
+                    </Capacity>
                   </ActivityByHour>
                 </>;
               }
@@ -82,7 +91,7 @@ const ActivityByHour = styled.div`
     padding: 12px;
 `;
 const TitleAndTime = styled.div`
-    width: 67%;
+    width: 70%;
     height: 100%;
     p{
         display: block;
@@ -108,13 +117,15 @@ const Line = styled.div`
     height: 95%;
     background-color: #CFCFCF;
 `;
-const Capacity = styled.div`
-    width: 32%;
+const Capacity = styled.button`
+    width: 28%;
     height: 100%;
+    border: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: 10px;
     cursor: pointer;
     span{
         display: block;
@@ -130,5 +141,14 @@ const Capacity = styled.div`
         width: 20px;
         height: 28px;
         color: #078632;
+    }
+    &:disabled {
+      cursor: not-allowed;
+      span{
+        color: #CC6666;
+      }
+      svg{
+         color: #CC6666;
+      }
     }
 `;
