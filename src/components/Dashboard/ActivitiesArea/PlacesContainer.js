@@ -25,7 +25,16 @@ export default function PlacesContainer({ chosenDate, activities, places }) {
                       <span>{a.startAt}{' - '}{a.endsAt}</span>
                     </TitleAndTime>
                     <Line />
-                    <Capacity><CgEnter /><span>27 Vagas</span></Capacity>
+                    <Capacity>
+                      {a.capacity - a._count.userActivity <= 0 ?
+                        <CgCloseO/>
+                        :
+                        <CgEnter /> }
+                      <span>{ a.capacity - a._count.userActivity <= 0 ? 
+                        'Esgotado'
+                        :
+                        a.capacity - a._count.userActivity }</span>
+                    </Capacity>
                   </ActivityByHour>
                 </>;
               }
