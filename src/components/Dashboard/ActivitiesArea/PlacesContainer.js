@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import { CgEnter, CgCloseO } from 'react-icons/cg';
+import { CgEnter, CgCloseO, CgCheckO } from 'react-icons/cg';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
-export default function PlacesContainer({ chosenDate, activities, places }) {
+export default function PlacesContainer({ chosenDate, activities, places, userActivities }) {
+  console.log(userActivities);
+
   return(
     <Container>
       {places.map((p) => 
@@ -19,21 +21,29 @@ export default function PlacesContainer({ chosenDate, activities, places }) {
               ).replace(/-feira/g, '');
               if (compararData === chosenDate && p.name === a.Place.name) {
                 return <>
-                  <ActivityByHour>
+                  <ActivityByHour background={userActivities.includes(a.id) ? '#D0FFDB' : '#F1F1F1' }>
                     <TitleAndTime>
                       <p>{a.name}</p>
                       <span>{a.startAt}{' - '}{a.endsAt}</span>
                     </TitleAndTime>
-                    <Line />
-                    <Capacity disabled={a.capacity - a._count.userActivity <= 0 ? true : false} onClick={() => console.log(a.id)} >
-                      {a.capacity - a._count.userActivity <= 0 ?
-                        <CgCloseO/>
+                    <Line background={userActivities.includes(a.id) ? '#99E8A1' : '#CFCFCF'} />
+                    <Capacity 
+                      disabled={a.capacity - a._count.userActivity <= 0 ? true : false} 
+                      background={userActivities.includes(a.id) ? '#D0FFDB' : '#F1F1F1'} 
+                      onClick={() => console.log(a.id)} >
+                      {userActivities.includes(a.id) ? 
+                        <CgCheckO/>
+                        : a.capacity - a._count.userActivity <= 0 ?
+                          <CgCloseO/>
+                          :
+                          <CgEnter /> }
+                      <span>{userActivities.includes(a.id) ? 
+                        'Inscrito' 
                         :
-                        <CgEnter /> }
-                      <span>{ a.capacity - a._count.userActivity <= 0 ? 
-                        'Esgotado'
-                        :
-                        a.capacity - a._count.userActivity }</span>
+                        a.capacity - a._count.userActivity <= 0 ? 
+                          'Esgotado'
+                          :
+                          a.capacity - a._count.userActivity }</span>
                     </Capacity>
                   </ActivityByHour>
                 </>;
@@ -81,7 +91,7 @@ const ActivityByHour = styled.div`
     height: 79px;
     left: 350px;
     top: 415px;
-    background: #F1F1F1;
+    background-color: ${(props) => props.background};
     border-radius: 5px;
     margin-bottom: 10px;
     display: flex;
@@ -115,11 +125,12 @@ const TitleAndTime = styled.div`
 const Line = styled.div`
     width: 1px;
     height: 95%;
-    background-color: #CFCFCF;
+    background-color: ${(props) => props.background};
 `;
 const Capacity = styled.button`
     width: 28%;
     height: 100%;
+    background-color: ${(props) => props.background};
     border: none;
     display: flex;
     flex-direction: column;
