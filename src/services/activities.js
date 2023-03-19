@@ -20,3 +20,13 @@ export async function getPlaces(token) {
   return data;
 }
 
+export async function getUserActivities(token) {
+  const { data } = await api.get('/activities/userActivities', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+}
+
