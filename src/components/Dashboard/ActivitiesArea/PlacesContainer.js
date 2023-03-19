@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
 export default function PlacesContainer({ chosenDate, activities, places, userActivities }) {
-  console.log(userActivities);
+  console.log(activities);
 
   return(
     <Container>
@@ -21,7 +21,11 @@ export default function PlacesContainer({ chosenDate, activities, places, userAc
               ).replace(/-feira/g, '');
               if (compararData === chosenDate && p.name === a.Place.name) {
                 return <>
-                  <ActivityByHour background={userActivities.includes(a.id) ? '#D0FFDB' : '#F1F1F1' }>
+                  <ActivityByHour 
+                    background={userActivities.includes(a.id) ? '#D0FFDB' : '#F1F1F1' }
+                    width={
+                      ((Number(a.startAt.replace(':', '')) - Number(a.endsAt.replace(':', ''))) * 80 * (-1))/100
+                    }>
                     <TitleAndTime>
                       <p>{a.name}</p>
                       <span>{a.startAt}{' - '}{a.endsAt}</span>
@@ -88,7 +92,7 @@ const AllActivitiesByDay = styled.div`
 `;
 const ActivityByHour = styled.div`
     width: 265px;
-    height: 79px;
+    height:${(props) => `${props.width}px`};
     left: 350px;
     top: 415px;
     background-color: ${(props) => props.background};
