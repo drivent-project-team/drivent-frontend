@@ -17,6 +17,7 @@ export default function Activities() {
   const [ chosenDate, setChosenDate ] = useState('');
   const [ places, setPlaces] = useState([]);
   const [ userActivities, setUserActivities ] = useState('');
+  const [ refreshPage, setRefreshPage ] = useState(false);
 
   useEffect(async() => {
     try {
@@ -42,7 +43,7 @@ export default function Activities() {
       setTicketInfo('notPaid');
       console.log(error);
     }
-  }, []);
+  }, [refreshPage]);
 
   if (ticketInfo !== 'OK') {
     return (
@@ -68,8 +69,18 @@ export default function Activities() {
   return (
     <ContainerIndexActivities>
       <TitlePage>Escolha de atividades</TitlePage>
-      <DatesContainer dates={dates} chosenDate={chosenDate} setClick={setClick} click={click} setChosenDate={setChosenDate}></DatesContainer>
-      {click && <PlacesContainer chosenDate={chosenDate} activities={activities} places={places} userActivities={userActivities}/>}
+      <DatesContainer 
+        dates={dates} 
+        chosenDate={chosenDate} 
+        setClick={setClick} click={click} 
+        setChosenDate={setChosenDate}></DatesContainer>
+      {click && <PlacesContainer 
+        chosenDate={chosenDate} 
+        activities={activities} 
+        places={places} 
+        userActivities={userActivities} 
+        refreshPage={refreshPage}
+        setRefreshPage={setRefreshPage}/>}
     </ContainerIndexActivities>
   );
 }
