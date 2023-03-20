@@ -2,9 +2,22 @@ import styled from 'styled-components';
 import { CgEnter, CgCloseO, CgCheckO } from 'react-icons/cg';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { postUserActivity } from '../../../services/activities';
+import useToken from '../../../hooks/useToken';
 
-export default function PlacesContainer({ chosenDate, activities, places, userActivities }) {
-  console.log(activities);
+export default function PlacesContainer({ chosenDate, activities, places, userActivities, refreshPage, setRefreshPage }) {
+  const token = useToken();
+
+  async function postActivity(activityId) {
+    console.log(activityId);
+    try {
+      const response = await postUserActivity(token, activityId);
+      console.log(response);
+      setRefreshPage(!refreshPage);
+    } catch (error) {
+      console.log(error.response?.status);
+    }
+  }
 
   return(
     <Container>
@@ -32,9 +45,16 @@ export default function PlacesContainer({ chosenDate, activities, places, userAc
                     </TitleAndTime>
                     <Line background={userActivities.includes(a.id) ? '#99E8A1' : '#CFCFCF'} />
                     <Capacity 
-                      disabled={a.capacity - a._count.userActivity <= 0 ? true : false} 
+                      disabled={userActivities.includes(a.id) ? 
+                        true
+                        :
+                        a.capacity - a._count.userActivity <= 0 ? 
+                          true 
+                          : 
+                          false} 
+                      colorDisabled={userActivities.includes(a.id) ? '#078632' :'#CC6666'}
                       background={userActivities.includes(a.id) ? '#D0FFDB' : '#F1F1F1'} 
-                      onClick={() => console.log(a.id)} >
+                      onClick={() => postActivity(a.id)} >
                       {userActivities.includes(a.id) ? 
                         <CgCheckO/>
                         : a.capacity - a._count.userActivity <= 0 ?
@@ -157,13 +177,14 @@ const Capacity = styled.button`
         height: 28px;
         color: #078632;
     }
+
     &:disabled {
       cursor: not-allowed;
       span{
-        color: #CC6666;
+        color: ${(props) => props.colorDisabled};
       }
       svg{
-         color: #CC6666;
+         color: ${(props) => props.colorDisabled};
       }
     }
 `;
