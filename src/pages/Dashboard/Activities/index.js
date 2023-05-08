@@ -22,6 +22,7 @@ export default function Activities() {
   useEffect(async() => {
     try {
       const ticket = await getTicket(token);
+      console.log(ticket);
 
       if (ticket.status === 'RESERVED') {
         setTicketInfo('notPaid');
@@ -40,7 +41,6 @@ export default function Activities() {
       setPlaces(places);
       setUserActivities(userActivities);
     } catch (error) {
-      setTicketInfo('notPaid');
       console.log(error);
     }
   }, [refreshPage]);

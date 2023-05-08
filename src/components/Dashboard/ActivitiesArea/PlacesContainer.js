@@ -45,13 +45,6 @@ export default function PlacesContainer({ chosenDate, activities, places, userAc
                     </TitleAndTime>
                     <Line background={userActivities.includes(a.id) ? '#99E8A1' : '#CFCFCF'} />
                     <Capacity 
-                      disabled={userActivities.includes(a.id) ? 
-                        true
-                        :
-                        a.capacity - a._count.userActivity <= 0 ? 
-                          true 
-                          : 
-                          false} 
                       colorDisabled={userActivities.includes(a.id) ? '#078632' :'#CC6666'}
                       background={userActivities.includes(a.id) ? '#D0FFDB' : '#F1F1F1'} 
                       onClick={() => postActivity(a.id)} >
