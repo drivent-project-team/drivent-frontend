@@ -6,6 +6,57 @@ Front-end for Driven.t, an event management solution.
 
 Driven.t is a web browser application with which you can manage every single aspect of your event.
 
+<details>
+    <summary>Sign up</summary>
+
+<img src="./src/assets/images/signup.png" alt="My project structure">
+</details>
+
+<details>
+    <summary>Login</summary>
+
+<img src="./src/assets/images/signin.png" alt="My project structure">
+</details>
+
+<details>
+    <summary>Payment</summary>
+
+<img src="./src/assets/images/payment.gif" alt="My project structure">
+</details>
+
+<details>
+    <summary>Booking</summary>
+
+<img src="./src/assets/images/hotel.gif" alt="My project structure">
+</details>
+
+<details>
+    <summary>Activities</summary>
+
+<img src="./src/assets/images/activities.gif" alt="My project structure">
+</details>
+
+## Technologies
+Some of the main technologies used in this project.<br/><br/>
+Front-end:<br/>
+<div>
+    <img src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" height="22px"/>
+    <img src="https://img.shields.io/badge/axios%20-%2320232a.svg?&style=for-the-badge&color=informational" height="22px" />
+    <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white" height="22px" />
+    <img src="https://img.shields.io/badge/react-app%20-%2320232a.svg?&style=for-the-badge&color=60ddf9&logo=react&logoColor=%2361DAFB" height="22px" />
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" height="22px" />
+</div>
+
+<br/>Back-end:<br/>
+<div>
+    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" height="22px"/>
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" height="22px" />
+    <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" height="22px" />
+    <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" height="22px" />
+    <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" height="22px" />
+</div>
+
+
 ## How to run for development
 
 1. Clone this repository
@@ -20,7 +71,7 @@ npm i
 4. Run the back-end in a development environment:
 
 ```bash
-npm run start
+npm start
 ```
 
 ## Building and starting for production
