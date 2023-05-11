@@ -36,6 +36,9 @@ Driven.t is a web browser application with which you can manage every single asp
 <img src="./src/assets/images/activities.gif" alt="My project structure">
 </details>
 
+
+Link to the project's api: https://github.com/drivent-project-team/drivent-backend
+
 ## Technologies
 Some of the main technologies used in this project.<br/><br/>
 Front-end:<br/>
